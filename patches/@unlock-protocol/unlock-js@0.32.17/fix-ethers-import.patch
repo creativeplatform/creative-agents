@@ -1,0 +1,15 @@
+diff --git a/node_modules/@unlock-protocol/unlock-js/dist/index.mjs b/node_modules/@unlock-protocol/unlock-js/dist/index.mjs
+index 39c4d60..5532de3 100644
+--- a/node_modules/@unlock-protocol/unlock-js/dist/index.mjs
++++ b/node_modules/@unlock-protocol/unlock-js/dist/index.mjs
+@@ -1,6 +1,9 @@
+ import { encode, AbiCoder } from '@ethersproject/abi';
+ import { getAddress } from '@ethersproject/address';
+-import { ethers, parseUnits } from 'ethers';
++import * as ethers from 'ethers';
++
++// Fix for missing parseUnits
++const parseUnits = ethers.utils.parseUnits;
+ 
+ /*
+  * This file manages locks: data, deployments, etc.

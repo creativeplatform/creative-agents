@@ -1,7 +1,8 @@
 import { jstack } from "jstack"
 
 interface Env {
-  Bindings: {}
+  // Using Record<never, never> for an intentionally empty object type
+  Bindings: Record<never, never>
 }
 
 export const j = jstack.init<Env>()

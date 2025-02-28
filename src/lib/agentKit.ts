@@ -9,8 +9,24 @@ import * as path from "path";
 
 const WALLET_DATA_FILE = "wallet_data.txt";
 
-let agent: any = null;
-let agentConfig: any = null;
+// Define proper types for agent and config
+type CdpConfig = {
+  networkId: string;
+  cdpWalletData: string;
+  cdpApiKeyName: string;
+  cdpApiKeyValue: string;
+};
+
+type AgentConfig = {
+  configurable: {
+    thread_id: string;
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+};
+
+let agent: ReturnType<typeof createReactAgent> | null = null;
+let agentConfig: AgentConfig | null = null;
 
 export async function getAgent() {
   if (agent) return { agent, config: agentConfig };
@@ -34,18 +50,18 @@ export async function getAgent() {
   }
 
   try {
-    const config = {
+    const config: CdpConfig = {
       networkId: process.env.NETWORK_ID || "base-sepolia",
       cdpWalletData: walletDataStr || "",
       cdpApiKeyName:
         "organizations/d57d9dd7-f34b-444e-ae9a-2b9c08c7be1c/apiKeys/c8b323fc-270a-4a91-be86-5663a6114ae7",
-      cdpApiKeyPrivateKey:
+      cdpApiKeyValue:
         "MHcCAQEEILYwJES/YuJRgPI1wSPd7iUKI2kGzOhSSes8DH9kLQ7RoAoGCCqGSM49\nAwEHoUQDQgAEIiUs8jqcD2xF3zdIFxpkGEUxtHb6roDXXGyXLbb6yX27sBjOfmEs\nzgcNbL8ZTuVSD9veEy7zIh/VgaJzbycKy",
     };
 
-    if (!config.cdpApiKeyName || !config.cdpApiKeyPrivateKey) {
+    if (!config.cdpApiKeyName || !config.cdpApiKeyValue) {
       throw new Error(
-        "Missing required configuration: CDP_API_KEY_NAME or CDP_API_KEY_PRIVATE_KEY"
+        "Missing required configuration: CDP_API_KEY_NAME or CDP_API_KEY_VALUE"
       );
     }
 

@@ -1,0 +1,17 @@
+/* Override for the OnchainKit wallet modal to ensure it appears above all content */
+:root {
+  --z-index-wallet-modal: 9999;
+}
+
+/* Target the actual modal elements */
+[data-radix-popper-content-wrapper],
+[role="dialog"] {
+  z-index: 9999 !important;
+}
+
+/* Ensure any OnchainKit modals are above everything else */
+.coinbase-onchainkit-modal-overlay,
+.coinbase-onchainkit-modal,
+.coinbase-onchainkit-wallet-dialog {
+  z-index: 9999 !important;
+}
